@@ -105,6 +105,7 @@ mark.hit{background:var(--hit)}mark.q{background:var(--q)}mark.snag{background:v
 .shots h4 .mono{font-family:var(--mono);margin-right:6px}
 .shots .row{display:flex;gap:6px;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;padding-bottom:6px}
 .shots button{flex:0 0 auto;border:0;padding:0;background:none;scroll-snap-align:start}
+.shots .tk{font-size:12px;line-height:1.6;margin-top:4px;color:var(--mute)}.shots .tk b{font-family:var(--mono);color:var(--ink);margin-right:4px}
 .shots img{display:block;height:112px;width:auto;border-radius:4px;background:var(--rule)}
 dialog.lb{border:0;background:transparent;max-width:100vw;max-height:100vh;width:100vw;height:100vh;padding:0}
 dialog.lb::backdrop{background:rgba(0,0,0,.88)}
@@ -153,7 +154,7 @@ const cardHtml=c=>`
 <div class="marks">${Object.entries(c.marks).map(([k,v])=>`<div><mark class="${k}">${LAB[k]}</mark> ${esc(v)}</div>`).join("")}${c.fb?`<div><b>声</b> ${esc(c.fb)}</div>`:""}</div>
 <p class="res">結果: ${esc(c.res||"不明")}</p>
 </div></details>`;
-const shotHtml=g=>`<div class="shots"><h4><span class="mono">写真</span>${esc(g.label)}（${g.items.length}枚・${g.exact?"撮影時刻":"時刻は目安"}）</h4><div class="row">${g.items.map(n=>`<button type="button" data-n="${n}" aria-label="写真を拡大"><img loading="lazy" src="photos/t${n}.webp" alt=""></button>`).join("")}</div></div>`;
+const shotHtml=g=>`<div class="shots"><h4><span class="mono">写真</span>${esc(g.label)}（${g.items.length}枚・${g.exact?"撮影時刻":"時刻は目安"}）</h4><div class="row">${g.items.map(n=>`<button type="button" data-n="${n}" aria-label="写真を拡大"><img loading="lazy" src="photos/t${n}.webp" alt=""></button>`).join("")}</div>${(g.talk||[]).map(([t,x])=>`<p class="tk"><b>${t}</b> ${esc(x)}</p>`).join("")}</div>`;
 function render(){
   const cs=CARDS.filter(c=>match(c,cur)).map(c=>({m:c.min,h:cardHtml(c)}));
   const ss=cur==="全部"?SHOTS.map(g=>({m:g.min-.5,h:shotHtml(g)})):[];
