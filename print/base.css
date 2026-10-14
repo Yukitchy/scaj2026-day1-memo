@@ -1,0 +1,8 @@
+@page{size:A4 landscape;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#17191c;--paper:#fbfaf6;--brand:#8c3d6b;--sign:#ffc800;--rule:#cfccc1;--mute:#585b60}
+html,body{width:297mm;height:210mm}
+body{background:var(--paper);color:var(--ink);font:500 5mm/1.6 "Noto Sans JP","Hiragino Sans",sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact;word-break:auto-phrase;line-break:strict}
+.band{height:14mm;background:var(--brand)}
+.band.b{position:absolute;left:0;right:0;bottom:0}
+html,body{overflow:hidden}
