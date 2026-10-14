@@ -100,6 +100,18 @@ mark.hit{background:var(--hit)}mark.q{background:var(--q)}mark.snag{background:v
 .filters button.f-follow[aria-pressed="true"]{background:#d6402b;color:#fff}
 .filters button.f-learn{background:#fffbe8}
 .filters button.f-learn[aria-pressed="true"]{background:var(--sign);color:var(--ink)}
+.shots{border:2px dashed var(--ink);border-radius:8px;margin-bottom:12px;padding:10px 12px;background:var(--block)}
+.shots h4{font:700 13px/1.5 var(--sans);margin-bottom:8px}
+.shots h4 .mono{font-family:var(--mono);margin-right:6px}
+.shots .row{display:flex;gap:6px;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;padding-bottom:6px}
+.shots button{flex:0 0 auto;border:0;padding:0;background:none;scroll-snap-align:start}
+.shots img{display:block;height:112px;width:auto;border-radius:4px;background:var(--rule)}
+dialog.lb{border:0;background:transparent;max-width:100vw;max-height:100vh;width:100vw;height:100vh;padding:0}
+dialog.lb::backdrop{background:rgba(0,0,0,.88)}
+dialog.lb .in{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:10px;padding:12px}
+dialog.lb img{max-width:100%;max-height:calc(100vh - 90px);object-fit:contain}
+dialog.lb .bar{display:flex;gap:8px}
+dialog.lb button{border:2px solid #fff;background:transparent;color:#fff;border-radius:999px;padding:8px 16px;font-weight:700}
 footer{margin:56px 0 40px;font-size:12px;color:var(--mute);border-top:2px solid var(--ink);padding-top:12px}
 @media (min-width:700px){.voices{grid-template-columns:1fr 1fr}}
 </style>
@@ -116,6 +128,7 @@ footer{margin:56px 0 40px;font-size:12px;color:var(--mute);border-top:2px solid 
 <section class="blk" id="log">
   <div class="sec-h"><div class="no">05</div><h2>会話ログ</h2><p>聞き取りにくい所は前後から直し、自信のない語には(?)を付けています。来場者の名前やお店の名前は伏せました。</p></div>
   <p style="font-size:14px;margin-bottom:8px"><b style="color:#d6402b">★ 続きあり</b>＝2日目以降に連絡・再訪がある会話（12件）。<b>★ 学び</b>＝2日目のやり方を変えるヒントになった会話（16件）。</p>
+  <p style="font-size:14px;margin-bottom:8px"><b>写真</b>は「全部」の表示で、会話カードの間に差し込んでいます。LINEのアルバムは撮影時刻が消えるため、写真の時刻は場面から並べた目安です。来場者が見分けられるものは外しています。</p>
   <div class="legend"><span><mark class="hit">刺さった</mark></span><span><mark class="q">質問</mark></span><span><mark class="snag">引っかかり</mark></span><span><mark class="win">決め手</mark></span></div>
   <div class="filters" role="group" aria-label="種類で絞る"></div>
   <div id="cards"></div>
@@ -124,6 +137,7 @@ footer{margin:56px 0 40px;font-size:12px;color:var(--mute);border-top:2px solid 
 </main>
 <script>
 const CARDS=/*CARDS*/[];
+const SHOTS=/*PHOTOS*/[];
 const LAB={hit:"刺さった",q:"質問",snag:"引っかかり",win:"決め手"};
 const IMP={follow:"★ 続きあり",learn:"★ 学び"};
 const KINDS=["全部","★ 続きあり","★ 学び","購入","商談・卸","試飲","質問だけ","出展者交流"];
@@ -132,15 +146,24 @@ const kindOf=c=>c.kind.split(/[（(]/)[0].trim();
 const match=(c,k)=>k==="全部"||(c.imp&&IMP[c.imp[0]]===k)||kindOf(c)===k;
 const fbox=document.querySelector(".filters"),box=document.getElementById("cards");
 let cur="全部";
-function render(){
-  box.innerHTML=CARDS.filter(c=>match(c,cur)).map(c=>`
+const cardHtml=c=>`
 <details class="card${c.imp?" imp "+c.imp[0]:""}"><summary>${c.imp?`<span class="star">${IMP[c.imp[0]]}</span><span class="why2">${esc(c.imp[1])}</span>`:""}<span class="t">${c.t}</span><span><span class="kind">${esc(kindOf(c))}</span><span class="who">${esc(c.who)}</span></span><span class="sum">${esc(c.sum)}</span></summary>
 <div class="body">
 <div class="talk">${c.talk.map(([s,x])=>`<p><span class="sp ${s==="つよぽん"?"tsuyo":""}">${esc(s||"―")}</span>${esc(x)}</p>`).join("")}</div>
 <div class="marks">${Object.entries(c.marks).map(([k,v])=>`<div><mark class="${k}">${LAB[k]}</mark> ${esc(v)}</div>`).join("")}${c.fb?`<div><b>声</b> ${esc(c.fb)}</div>`:""}</div>
 <p class="res">結果: ${esc(c.res||"不明")}</p>
-</div></details>`).join("");
+</div></details>`;
+const shotHtml=g=>`<div class="shots"><h4><span class="mono">写真</span>${esc(g.label)}（${g.items.length}枚・時刻は目安）</h4><div class="row">${g.items.map(n=>`<button type="button" data-n="${n}" aria-label="写真を拡大"><img loading="lazy" src="photos/t${n}.webp" alt=""></button>`).join("")}</div></div>`;
+function render(){
+  const cs=CARDS.filter(c=>match(c,cur)).map(c=>({m:c.min,h:cardHtml(c)}));
+  const ss=cur==="全部"?SHOTS.map(g=>({m:g.min-.5,h:shotHtml(g)})):[];
+  box.innerHTML=cs.concat(ss).sort((a,b)=>a.m-b.m).map(x=>x.h).join("");
 }
+const lb=document.createElement("dialog");lb.className="lb";lb.innerHTML='<div class="in"><img alt=""><div class="bar"><button type="button" data-d="-1">前</button><button type="button" data-d="0">閉じる</button><button type="button" data-d="1">次</button></div></div>';document.body.appendChild(lb);
+let lbList=[],lbI=0;const lbImg=lb.querySelector("img");
+const lbShow=()=>{lbImg.src="photos/p"+lbList[lbI]+".webp"};
+box.addEventListener("click",e=>{const b=e.target.closest(".shots button");if(!b)return;lbList=[...b.parentNode.querySelectorAll("button")].map(x=>x.dataset.n);lbI=lbList.indexOf(b.dataset.n);lbShow();lb.showModal()});
+lb.addEventListener("click",e=>{const d=e.target.closest("button")?.dataset.d;if(d==="0"||e.target===lb)return lb.close();if(d){lbI=(lbI+ +d+lbList.length)%lbList.length;lbShow()}});
 fbox.innerHTML=KINDS.map(k=>`<button type="button" aria-pressed="${k===cur}" data-k="${k}" class="${k.startsWith("★")?"f-"+(k.includes("続き")?"follow":"learn"):""}">${k} <span class="mono">${k==="全部"?CARDS.length:CARDS.filter(c=>match(c,k)).length}</span></button>`).join("");
 fbox.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;cur=b.dataset.k;fbox.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));render()});
 render();
