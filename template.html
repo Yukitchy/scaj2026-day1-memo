@@ -90,6 +90,16 @@ mark.hit{background:var(--hit)}mark.q{background:var(--q)}mark.snag{background:v
 .marks{display:grid;gap:4px;font-size:14px}
 .marks div{padding:4px 8px;border-radius:4px}
 .res{margin-top:8px;font-size:13px;color:var(--mute)}
+.card.imp{border-width:3px;border-left-width:10px}
+.card.follow{border-color:#d6402b;background:#fff6f4}
+.card.learn{border-color:var(--sign);background:#fffbe8}
+.card .star{grid-column:1/-1;justify-self:start;font:900 13px/1 var(--sans);padding:5px 8px;border-radius:4px;color:#fff;background:#d6402b}
+.card.learn .star{background:var(--sign);color:var(--ink)}
+.card .why2{grid-column:1/-1;font-weight:700;font-size:14px;margin-bottom:4px}
+.filters button.f-follow{border-color:#d6402b;color:#d6402b}
+.filters button.f-follow[aria-pressed="true"]{background:#d6402b;color:#fff}
+.filters button.f-learn{background:#fffbe8}
+.filters button.f-learn[aria-pressed="true"]{background:var(--sign);color:var(--ink)}
 footer{margin:56px 0 40px;font-size:12px;color:var(--mute);border-top:2px solid var(--ink);padding-top:12px}
 @media (min-width:700px){.voices{grid-template-columns:1fr 1fr}}
 </style>
@@ -105,6 +115,7 @@ footer{margin:56px 0 40px;font-size:12px;color:var(--mute);border-top:2px solid 
 <!--SUMMARY-->
 <section class="blk" id="log">
   <div class="sec-h"><div class="no">05</div><h2>会話ログ</h2><p>聞き取りにくい所は前後から直し、自信のない語には(?)を付けています。来場者の名前やお店の名前は伏せました。</p></div>
+  <p style="font-size:14px;margin-bottom:8px"><b style="color:#d6402b">★ 続きあり</b>＝2日目以降に連絡・再訪がある会話（12件）。<b>★ 学び</b>＝2日目のやり方を変えるヒントになった会話（16件）。</p>
   <div class="legend"><span><mark class="hit">刺さった</mark></span><span><mark class="q">質問</mark></span><span><mark class="snag">引っかかり</mark></span><span><mark class="win">決め手</mark></span></div>
   <div class="filters" role="group" aria-label="種類で絞る"></div>
   <div id="cards"></div>
@@ -114,21 +125,23 @@ footer{margin:56px 0 40px;font-size:12px;color:var(--mute);border-top:2px solid 
 <script>
 const CARDS=/*CARDS*/[];
 const LAB={hit:"刺さった",q:"質問",snag:"引っかかり",win:"決め手"};
-const KINDS=["全部","購入","商談・卸","試飲","質問だけ","出展者交流"];
+const IMP={follow:"★ 続きあり",learn:"★ 学び"};
+const KINDS=["全部","★ 続きあり","★ 学び","購入","商談・卸","試飲","質問だけ","出展者交流"];
 const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const kindOf=c=>c.kind.split(/[（(]/)[0].trim();
+const match=(c,k)=>k==="全部"||(c.imp&&IMP[c.imp[0]]===k)||kindOf(c)===k;
 const fbox=document.querySelector(".filters"),box=document.getElementById("cards");
 let cur="全部";
 function render(){
-  box.innerHTML=CARDS.filter(c=>cur==="全部"||kindOf(c)===cur).map(c=>`
-<details class="card"><summary><span class="t">${c.t}</span><span><span class="kind">${esc(kindOf(c))}</span><span class="who">${esc(c.who)}</span></span><span class="sum">${esc(c.sum)}</span></summary>
+  box.innerHTML=CARDS.filter(c=>match(c,cur)).map(c=>`
+<details class="card${c.imp?" imp "+c.imp[0]:""}"><summary>${c.imp?`<span class="star">${IMP[c.imp[0]]}</span><span class="why2">${esc(c.imp[1])}</span>`:""}<span class="t">${c.t}</span><span><span class="kind">${esc(kindOf(c))}</span><span class="who">${esc(c.who)}</span></span><span class="sum">${esc(c.sum)}</span></summary>
 <div class="body">
 <div class="talk">${c.talk.map(([s,x])=>`<p><span class="sp ${s==="つよぽん"?"tsuyo":""}">${esc(s||"―")}</span>${esc(x)}</p>`).join("")}</div>
 <div class="marks">${Object.entries(c.marks).map(([k,v])=>`<div><mark class="${k}">${LAB[k]}</mark> ${esc(v)}</div>`).join("")}${c.fb?`<div><b>声</b> ${esc(c.fb)}</div>`:""}</div>
 <p class="res">結果: ${esc(c.res||"不明")}</p>
 </div></details>`).join("");
 }
-fbox.innerHTML=KINDS.map(k=>`<button type="button" aria-pressed="${k===cur}" data-k="${k}">${k} <span class="mono">${k==="全部"?CARDS.length:CARDS.filter(c=>kindOf(c)===k).length}</span></button>`).join("");
+fbox.innerHTML=KINDS.map(k=>`<button type="button" aria-pressed="${k===cur}" data-k="${k}" class="${k.startsWith("★")?"f-"+(k.includes("続き")?"follow":"learn"):""}">${k} <span class="mono">${k==="全部"?CARDS.length:CARDS.filter(c=>match(c,k)).length}</span></button>`).join("");
 fbox.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;cur=b.dataset.k;fbox.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));render()});
 render();
 </script>
