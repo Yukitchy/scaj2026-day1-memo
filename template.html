@@ -128,7 +128,7 @@ footer{margin:56px 0 40px;font-size:12px;color:var(--mute);border-top:2px solid 
 <section class="blk" id="log">
   <div class="sec-h"><div class="no">05</div><h2>会話ログ</h2><p>聞き取りにくい所は前後から直し、自信のない語には(?)を付けています。来場者の名前やお店の名前は伏せました。</p></div>
   <p style="font-size:14px;margin-bottom:8px"><b style="color:#d6402b">★ 続きあり</b>＝2日目以降に連絡・再訪がある会話（12件）。<b>★ 学び</b>＝2日目のやり方を変えるヒントになった会話（16件）。</p>
-  <p style="font-size:14px;margin-bottom:8px"><b>写真</b>は「全部」の表示で、会話カードの間に差し込んでいます。LINEのアルバムは撮影時刻が消えるため、写真の時刻は場面から並べた目安です。来場者が見分けられるものは外しています。</p>
+  <p style="font-size:14px;margin-bottom:8px"><b>写真</b>は「全部」の表示で、会話カードの間に差し込んでいます。ユウキが撮った写真は撮影時刻のとおりに、ほかのスタッフの写真は場面から並べた目安の位置に入れています。来場者が見分けられるものは外しています。</p>
   <div class="legend"><span><mark class="hit">刺さった</mark></span><span><mark class="q">質問</mark></span><span><mark class="snag">引っかかり</mark></span><span><mark class="win">決め手</mark></span></div>
   <div class="filters" role="group" aria-label="種類で絞る"></div>
   <div id="cards"></div>
@@ -153,7 +153,7 @@ const cardHtml=c=>`
 <div class="marks">${Object.entries(c.marks).map(([k,v])=>`<div><mark class="${k}">${LAB[k]}</mark> ${esc(v)}</div>`).join("")}${c.fb?`<div><b>声</b> ${esc(c.fb)}</div>`:""}</div>
 <p class="res">結果: ${esc(c.res||"不明")}</p>
 </div></details>`;
-const shotHtml=g=>`<div class="shots"><h4><span class="mono">写真</span>${esc(g.label)}（${g.items.length}枚・時刻は目安）</h4><div class="row">${g.items.map(n=>`<button type="button" data-n="${n}" aria-label="写真を拡大"><img loading="lazy" src="photos/t${n}.webp" alt=""></button>`).join("")}</div></div>`;
+const shotHtml=g=>`<div class="shots"><h4><span class="mono">写真</span>${esc(g.label)}（${g.items.length}枚・${g.exact?"撮影時刻":"時刻は目安"}）</h4><div class="row">${g.items.map(n=>`<button type="button" data-n="${n}" aria-label="写真を拡大"><img loading="lazy" src="photos/t${n}.webp" alt=""></button>`).join("")}</div></div>`;
 function render(){
   const cs=CARDS.filter(c=>match(c,cur)).map(c=>({m:c.min,h:cardHtml(c)}));
   const ss=cur==="全部"?SHOTS.map(g=>({m:g.min-.5,h:shotHtml(g)})):[];
