@@ -7,13 +7,13 @@
 <meta name="robots" content="noindex,nofollow">
 <meta property="og:title" content="SCAJ2026 1日目ふりかえり">
 <meta property="og:description" content="10/14 ブースでの来場者との会話から、2日目に効くことをまとめました">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23ffc800'/%3E%3Ctext x='16' y='24' text-anchor='middle' font-size='22' font-weight='900' font-family='sans-serif' fill='%2317191c'%3E1%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23ac4685'/%3E%3Ctext x='16' y='24' text-anchor='middle' font-size='22' font-weight='900' font-family='sans-serif' fill='%23ffffff'%3E1%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#17191c;--paper:#fbfaf6;--sign:#ffc800;--rule:#cfccc1;--block:#efede5;--mute:#585b60;
+  --ink:#17191c;--paper:#fbfaf6;--sign:#ac4685;--sign-d:#5c1f48;--sign-l:#f7ecf3;--rule:#cfccc1;--block:#efede5;--mute:#585b60;
   --hit:#ffe066;--q:#cfe6ff;--snag:#ffd0cc;--win:#c9f0d3;
   --sans:"Noto Sans JP","Hiragino Sans","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
@@ -29,8 +29,13 @@ a{color:inherit}
 button{font:inherit;color:inherit;cursor:pointer}
 :focus-visible{outline:3px solid var(--ink);outline-offset:2px}
 
-.cover{background:var(--sign);padding:14px 0 26px}
-.cover-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font:700 13px/1.5 var(--mono);letter-spacing:.08em;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.cover{background:var(--sign);color:#fff;padding:14px 0 26px}
+.cover-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font:700 13px/1.5 var(--mono);letter-spacing:.08em;border-bottom:2px solid #fff;padding-bottom:10px;align-items:center}
+.cover-top .brand{display:flex;align-items:center;gap:10px}
+.cover-top .brand img{width:48px;height:48px;border-radius:50%;border:2px solid #fff}
+.cover-top .ev{display:flex;align-items:center;gap:10px}
+.cover-top .scaj{background:#fff;border-radius:6px;padding:6px 10px;display:inline-flex}
+.cover-top .scaj img{height:20px;width:auto;display:block}
 .cover h1{margin:26px 0 12px;font:900 clamp(30px,8.5vw,52px)/1.25 var(--sans)}
 .cover h1 .en{display:block;font:700 clamp(18px,4.6vw,24px)/1 var(--mono);letter-spacing:.02em;margin-bottom:10px}
 .cover .lead{font-weight:500;max-width:36em}
@@ -92,14 +97,14 @@ mark.hit{background:var(--hit)}mark.q{background:var(--q)}mark.snag{background:v
 .res{margin-top:8px;font-size:13px;color:var(--mute)}
 .card.imp{border-width:3px;border-left-width:10px}
 .card.follow{border-color:#d6402b;background:#fff6f4}
-.card.learn{border-color:var(--sign);background:#fffbe8}
+.card.learn{border-color:var(--sign);background:var(--sign-l)}
 .card .star{grid-column:1/-1;justify-self:start;font:900 13px/1 var(--sans);padding:5px 8px;border-radius:4px;color:#fff;background:#d6402b}
-.card.learn .star{background:var(--sign);color:var(--ink)}
+.card.learn .star{background:var(--sign);color:#fff}
 .card .why2{grid-column:1/-1;font-weight:700;font-size:14px;margin-bottom:4px}
 .filters button.f-follow{border-color:#d6402b;color:#d6402b}
 .filters button.f-follow[aria-pressed="true"]{background:#d6402b;color:#fff}
-.filters button.f-learn{background:#fffbe8}
-.filters button.f-learn[aria-pressed="true"]{background:var(--sign);color:var(--ink)}
+.filters button.f-learn{background:var(--sign-l)}
+.filters button.f-learn[aria-pressed="true"]{background:var(--sign);color:#fff}
 .shots{border:2px dashed var(--ink);border-radius:8px;margin-bottom:12px;padding:10px 12px;background:var(--block)}
 .shots h4{font:700 13px/1.5 var(--sans);margin-bottom:8px}
 .shots h4 .mono{font-family:var(--mono);margin-right:6px}
@@ -114,12 +119,58 @@ dialog.lb img{max-width:100%;max-height:calc(100vh - 90px);object-fit:contain}
 dialog.lb .bar{display:flex;gap:8px}
 dialog.lb button{border:2px solid #fff;background:transparent;color:#fff;border-radius:999px;padding:8px 16px;font-weight:700}
 footer{margin:56px 0 40px;font-size:12px;color:var(--mute);border-top:2px solid var(--ink);padding-top:12px}
+
+.fixmap{display:grid;gap:8px;margin-bottom:18px}
+.fixmap>div{border:2px solid var(--ink);border-radius:8px;padding:8px 12px;background:#fff;border-left-width:10px}
+.fixmap h3{font-size:14px;margin:0 0 4px}
+.fixmap ul{list-style:none;font-size:14px}.fixmap li{margin:2px 0}.fixmap a{text-decoration:none}
+.fixmap .p1,.fix.p1{border-left-color:#d6402b}.fixmap .p2,.fix.p2{border-left-color:var(--sign)}.fixmap .p3,.fix.p3{border-left-color:var(--rule)}
+.fix{display:grid;grid-template-columns:1fr;gap:12px;border:2px solid var(--ink);border-left-width:10px;border-radius:8px;background:#fff;padding:12px 14px;margin-bottom:12px;scroll-margin-top:12px}
+.fx-pri{font:700 12px/1 var(--mono);color:var(--mute);margin-bottom:6px}
+.fix h3{font-size:17px;margin:0 0 6px;display:flex;gap:8px;align-items:baseline}
+.fx-no{font:900 14px/1 var(--mono);background:var(--ink);color:var(--paper);border-radius:4px;padding:3px 6px;flex:none}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px}
+.chip{font:700 12px/1 var(--sans);border:1.5px solid var(--ink);border-radius:999px;padding:4px 8px;background:var(--block);text-decoration:none}
+a.chip{background:var(--q)}
+.fix h4{font:700 12px/1.5 var(--sans);color:var(--mute);margin:8px 0 2px}
+.fix p{font-size:14px}.fix q{font-weight:700;quotes:"「" "」"}
+ul.todo{list-style:none;font-size:14px}ul.todo li{margin:2px 0;padding-left:1.4em;text-indent:-1.4em}ul.todo li::before{content:"☐ "}
+.fix .unk{font-size:12px;color:var(--mute);margin-top:6px}
+.fx-ph{display:block;order:-1}.fx-ph img{display:block;width:100%;max-height:200px;object-fit:cover;border-radius:6px;background:var(--rule)}
+.card{scroll-margin-top:64px}
+@media (min-width:700px){.fixmap{grid-template-columns:repeat(3,1fr)}.fix:has(.fx-ph){grid-template-columns:1fr 200px}.fx-ph{order:0}.fx-ph img{height:100%;max-height:none}}
 @media (min-width:700px){.voices{grid-template-columns:1fr 1fr}}
+body.tabs nav.toc{display:none}
+body.tabs section.blk{display:none}
+body.tabs section.blk.on{display:block}
+body.tabs section.blk.on:first-of-type,body.tabs section.blk.on{margin-top:28px}
+.tabbar{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;position:sticky;top:0;z-index:20;background:var(--sign-d);padding:10px 16px}
+.tabbar a{color:var(--paper);text-decoration:none;font:700 14px/1 var(--sans);padding:10px 16px;border-radius:999px;border:2px solid transparent;white-space:nowrap}
+.tabbar a:hover{border-color:#fff}
+.tabbar a[aria-current="page"]{background:#fff;color:var(--sign-d)}
+.tabbar .s{display:none}
+body.tabs .filters{top:58px}
+body.tabs .card,body.tabs .fix{scroll-margin-top:122px}
+@media (max-width:699px){
+  body.tabs{padding-bottom:calc(66px + env(safe-area-inset-bottom))}
+  .tabbar{display:grid;grid-template-columns:repeat(var(--n,7),1fr);gap:2px;position:fixed;top:auto;left:0;right:0;bottom:0;padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+  .tabbar a{font:700 11px/1.25 var(--sans);padding:9px 1px;border-radius:6px;border:0;word-break:keep-all;white-space:normal;display:flex;align-items:center;justify-content:center}
+  .tabbar .l{display:none}.tabbar .s{display:inline}
+  body.tabs .filters{top:0}
+  body.tabs .card,body.tabs .fix{scroll-margin-top:64px}
+}
+.days{display:inline-flex;gap:4px;margin-top:18px;padding:4px;border-radius:999px;background:rgba(0,0,0,.22)}
+.days a{display:flex;flex-direction:column;align-items:center;gap:2px;color:#fff;text-decoration:none;font:900 16px/1.1 var(--sans);padding:10px 22px;border-radius:999px}
+.days a small{font:700 11px/1 var(--mono);letter-spacing:.04em;opacity:.85}
+.days a:hover{background:rgba(255,255,255,.15)}
+.days a[aria-current="page"]{background:#fff;color:var(--sign-d)}
+.days a[aria-current="page"] small{opacity:1}
 </style>
 </head>
 <body>
 <header class="cover"><div class="wrap">
-  <div class="cover-top"><span>IRREGULAR COFFEE</span><span>SCAJ2026 / DAY 1 / 10.14</span></div>
+  <div class="cover-top"><span class="brand"><img src="brand/irregular-icon.png" alt="irregular coffee">IRREGULAR COFFEE</span><span class="ev"><span class="scaj"><img src="brand/scaj2026.svg" alt="SCAJ2026"></span>DAY 1 / 10.14</span></div>
+  <nav class="days" aria-label="日程の切り替え"><a href="https://yukitchy.github.io/scaj2026-day1-memo/" aria-current="page">1日目<small>10/14 水</small></a><a href="https://yukitchy.github.io/scaj2026-day2-memo/">2日目<small>10/15 木</small></a></nav>
   <h1><span class="en">DAY 1 REVIEW</span>1日目ふりかえり</h1>
   <p class="lead">10/14にブースで録った約8時間の音声から、来場者とのやりとりを書き起こして整えました。2日目の朝、集合前に5分で読める順に並べています。</p>
   <nav class="toc"><a href="#nums">数字</a><a href="#voices">来場者の声</a><a href="#tsuyo">つよぽんへ</a><a href="#team">全員で</a><a href="#log">会話ログ</a></nav>
@@ -148,7 +199,7 @@ const match=(c,k)=>k==="全部"||(c.imp&&IMP[c.imp[0]]===k)||kindOf(c)===k;
 const fbox=document.querySelector(".filters"),box=document.getElementById("cards");
 let cur="全部";
 const cardHtml=c=>`
-<details class="card${c.imp?" imp "+c.imp[0]:""}"><summary>${c.imp?`<span class="star">${IMP[c.imp[0]]}</span><span class="why2">${esc(c.imp[1])}</span>`:""}<span class="t">${c.t}</span><span><span class="kind">${esc(kindOf(c))}</span><span class="who">${esc(c.who)}</span></span><span class="sum">${esc(c.sum)}</span></summary>
+<details id="c${c.n}" class="card${c.imp?" imp "+c.imp[0]:""}"><summary>${c.imp?`<span class="star">${IMP[c.imp[0]]}</span><span class="why2">${esc(c.imp[1])}</span>`:""}<span class="t">${c.t}</span><span><span class="kind">${esc(kindOf(c))}</span><span class="who">${esc(c.who)}</span></span><span class="sum">${esc(c.sum)}</span></summary>
 <div class="body">
 <div class="talk">${c.talk.map(([s,x])=>`<p><span class="sp ${s==="つよぽん"?"tsuyo":""}">${esc(s||"―")}</span>${esc(x)}</p>`).join("")}</div>
 <div class="marks">${Object.entries(c.marks).map(([k,v])=>`<div><mark class="${k}">${LAB[k]}</mark> ${esc(v)}</div>`).join("")}${c.fb?`<div><b>声</b> ${esc(c.fb)}</div>`:""}</div>
@@ -168,6 +219,21 @@ lb.addEventListener("click",e=>{const d=e.target.closest("button")?.dataset.d;if
 fbox.innerHTML=KINDS.map(k=>`<button type="button" aria-pressed="${k===cur}" data-k="${k}" class="${k.startsWith("★")?"f-"+(k.includes("続き")?"follow":"learn"):""}">${k} <span class="mono">${k==="全部"?CARDS.length:CARDS.filter(c=>match(c,k)).length}</span></button>`).join("");
 fbox.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;cur=b.dataset.k;fbox.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));render()});
 render();
+document.addEventListener("click",e=>{const a=e.target.closest('a[href^="#c"]');if(!a)return;const id=a.getAttribute("href").slice(1);if(cur!=="全部"){cur="全部";fbox.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.k==="全部"));render()}const el=document.getElementById(id);if(el){e.preventDefault();el.open=true;el.scrollIntoView()}});
+
+// 節をタブで切り替える（PCは表紙の下に貼り付くメニュー、スマホは下に固定）
+(()=>{const mq=matchMedia("(max-width:699px)"),SHORT={nums:"数字",voices:"声",tsuyo:"つよぽん",dame:"改善点",team:"全員で",hansei:"反省会",log:"会話ログ"};
+const LONG={};document.querySelectorAll("nav.toc a").forEach(a=>LONG[a.getAttribute("href").slice(1)]=a.textContent);
+const secs=[...document.querySelectorAll("section.blk")],bar=document.createElement("nav");bar.className="tabbar";bar.setAttribute("aria-label","節の切り替え");
+bar.innerHTML=secs.map(s=>`<a href="#${s.id}" data-t="${s.id}"><span class="l">${LONG[s.id]||SHORT[s.id]}</span><span class="s">${SHORT[s.id]||s.id}</span></a>`).join("");
+document.querySelector("header.cover").after(bar);bar.style.setProperty("--n",secs.length);document.body.classList.add("tabs");
+const show=(id,top)=>{secs.forEach(s=>s.classList.toggle("on",s.id===id));bar.querySelectorAll("a").forEach(a=>a.dataset.t===id?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current"));
+  if(top){const y=document.getElementById(id).getBoundingClientRect().top+scrollY-(mq.matches?8:bar.offsetHeight+8);if(scrollY>y||mq.matches)window.scrollTo(0,Math.max(0,y))}};
+document.addEventListener("click",e=>{const a=e.target.closest('a[href^="#"]');if(!a)return;const h=a.getAttribute("href").slice(1),el=document.getElementById(h);
+  const sec=el?el.closest("section.blk"):(/^c\d+$/.test(h)?document.getElementById("log"):null);if(!sec)return;
+  if(a.closest(".tabbar")||el===sec){e.preventDefault();show(sec.id,true);history.replaceState(null,"","#"+sec.id);return}
+  if(!sec.classList.contains("on"))show(sec.id,false)},true);
+const h=location.hash.slice(1),el=h&&document.getElementById(h),s0=el&&el.closest("section.blk");show(s0?s0.id:secs[0].id,false);if(el&&el!==s0)setTimeout(()=>el.scrollIntoView(),0)})();
 </script>
 </body>
 </html>
